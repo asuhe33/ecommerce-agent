@@ -2,9 +2,9 @@
 
 ## Day 1：基础搭建（数据库 + 知识库）
 
-- [ ] 项目初始化：目录结构、requirements.txt、.env、config.py、.gitignore、README.md
+- [x] 项目初始化：目录结构、requirements.txt、.env、config.py、.gitignore、README.md
 - [ ] 安装依赖 + 配置 Ollama（`ollama pull nomic-embed-text`）
-- [ ] 编写 config.py：集中读取 .env 配置
+- [x] 编写 config.py：集中读取 .env 配置
 - [ ] 编写 database/db_manager.py：MySQL 连接池
 - [ ] 编写 data/init_db.py：建表 + 生成 mock 数据（50商品/10供应商/30客户/200订单）
 - [ ] 编写 4 篇知识文档（faq/return/shipping/product_guide）
