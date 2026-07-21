@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.egg-info
+dist
+build
+.eggs
+
+# 虚拟环境
+venv
+env
+.venv
+
+# IDE
+.vscode
+.idea
+*.swp
+
+# 测试
+tests
+.pytest_cache
+htmlcov
+.coverage
+
+# 本地数据（Docker 用 volume 挂载）
+chroma_db
+
+# 文档
+*.md
+!requirements.txt
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore

@@ -7,10 +7,14 @@
 
 import argparse
 import os
+import sys
 from pathlib import Path
 
+# 修复 Windows GBK 编码
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 from langchain_chroma import Chroma
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from config import config
@@ -30,7 +34,7 @@ def get_embedding():
 
 def load_documents() -> list:
     """从知识库目录加载所有 .txt 文件。"""
-    from langchain.schema.document import Document
+    from langchain_core.documents import Document
 
     documents = []
     for filepath in KB_DIR.glob("*.txt"):

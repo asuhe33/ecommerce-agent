@@ -7,7 +7,11 @@
 
 import argparse
 import random
+import sys
 from datetime import datetime, timedelta
+
+# 修复 Windows GBK 编码
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from sqlalchemy import text
 

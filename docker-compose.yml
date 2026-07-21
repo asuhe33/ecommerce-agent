@@ -1,0 +1,109 @@
+# ============================================
+# 电商 Agent — Docker Compose 多容器编排
+# ============================================
+#
+# 使用方法:
+#   docker-compose up -d          # 启动所有服务
+#   docker-compose down           # 停止所有服务
+#   docker-compose logs -f app    # 查看应用日志
+#
+# 首次启动后需初始化:
+#   docker-compose exec app python data/init_db.py
+#   docker-compose exec app python rag/vector_store.py
+#
+# 访问: http://localhost:8501
+
+version: "3.8"
+
+services:
+  # ── MySQL 数据库 ──────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: ecommerce-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-ecommerce123}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ecommerce}
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_PASSWORD:-ecommerce123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+
+  # ── Ollama LLM 服务 ───────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ecommerce-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # GPU 支持（可选，需安装 nvidia-container-runtime）
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ecommerce-net
+
+  # ── 电商 Agent 应用 ───────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecommerce-agent
+    ports:
+      - "8501:8501"
+    environment:
+      # 连接到其他服务的配置
+      MYSQL_HOST: mysql
+      MYSQL_PORT: "3306"
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-ecommerce123}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ecommerce}
+      OLLAMA_BASE_URL: http://ollama:11434
+      LLM_MODEL: qwen3.5:9b
+      EMBED_MODEL: nomic-embed-text
+      CHROMA_PATH: /app/chroma_db
+    volumes:
+      # 持久化向量库
+      - chroma_data:/app/chroma_db
+      # 挂载知识库目录（方便添加文档）
+      - ./data/knowledge_base:/app/data/knowledge_base
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    networks:
+      - ecommerce-net
+
+# ── 数据卷 ──────────────────────────────────────
+volumes:
+  mysql_data:
+    name: ecommerce-mysql-data
+  ollama_data:
+    name: ecommerce-ollama-data
+  chroma_data:
+    name: ecommerce-chroma-data
+
+# ── 网络 ────────────────────────────────────────
+networks:
+  ecommerce-net:
+    driver: bridge
+    name: ecommerce-network

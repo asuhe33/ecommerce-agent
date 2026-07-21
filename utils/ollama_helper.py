@@ -1,5 +1,10 @@
 """Ollama 连接检查和模型管理工具。"""
 
+import sys
+
+# 修复 Windows GBK 编码
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 import requests
 
 from config import config

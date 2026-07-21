@@ -1,7 +1,7 @@
 """Agent 构建模块：将 LLM、工具、提示词组装为完整的 LangChain Agent。"""
 
-from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_community.chat_models import ChatOllama
+from langchain_classic.agents import AgentExecutor, create_tool_calling_agent
+from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 from config import config

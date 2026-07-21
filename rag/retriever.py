@@ -1,7 +1,7 @@
 """检索函数：供 Agent 的 RAG 工具调用。"""
 
 from langchain_chroma import Chroma
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 
 from config import config
 

@@ -7,6 +7,7 @@ from langchain_core.tools import tool
 
 from database.db_manager import db_manager
 from rag.retriever import format_search_results
+from agent.prompt_engine import prompt_engine, PromptScene
 
 
 @tool
@@ -186,14 +187,18 @@ def data_analysis(query: str) -> str:
 def rag_qa(query: str) -> str:
     """通用知识问答：回答产品选购建议、平台使用规则、购物技巧等知识性问题。
     适用于：如何选手机、如何注册账号、如何使用优惠券、购物技巧等。"""
-    return format_search_results(query, k=5)
+    context = format_search_results(query, k=5)
+    # 使用 Prompt Engine 生成带引导的 RAG 提示词
+    return prompt_engine.get_rag_prompt(PromptScene.RAG_QA, context=context)
 
 
 @tool
 def customer_service(query: str) -> str:
     """客服服务：回答退换货政策、物流配送、投诉建议、订单售后等客服问题。
     适用于：退货流程、换货条件、物流查询、运费规则、投诉处理等。"""
-    return format_search_results(query, k=5)
+    context = format_search_results(query, k=5)
+    # 使用 Prompt Engine 生成带引导的客服提示词（更有同理心）
+    return prompt_engine.get_rag_prompt(PromptScene.CUSTOMER_SERVICE, context=context)
 
 
 # 工具列表（供 Agent 构建时使用）
