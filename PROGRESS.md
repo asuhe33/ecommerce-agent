@@ -19,10 +19,10 @@
 ## Day 2：Agent 核心（工具 + Agent 组装）
 
 - [x] 编写 utils/ollama_helper.py：Ollama 连接检查 + 模型拉取
-- [ ] 编写 agent/tools.py：5 个工具函数（product_lookup, supplier_lookup, data_analysis, rag_qa, customer_service）
-- [ ] 编写 agent/prompts.py：系统提示词（角色定义 + 工具选择指南）
-- [ ] 编写 agent/agent_builder.py：LangChain Agent 组装
-- [ ] CLI 测试循环：命令行交互测试每个工具
+- [x] 编写 agent/tools.py：5 个工具函数（product_lookup, supplier_lookup, data_analysis, rag_qa, customer_service）
+- [x] 编写 agent/prompts.py：系统提示词（角色定义 + 工具选择指南）
+- [x] 编写 agent/agent_builder.py：LangChain Agent 组装
+- [ ] CLI 测试循环：命令行交互测试每个工具（需要用户配置环境后执行）
 - [ ] 修复工具调用问题（如需启用 ReAct fallback）
 
 **Day 2 完成时间**: ____________
@@ -35,7 +35,7 @@
 - [ ] Agent ↔ Streamlit 集成，处理会话状态
 - [ ] 端到端测试：5 类场景各测几轮
 - [ ] 修复测试中发现的问题
-- [ ] 更新 README.md + 代码整理
+- [ ] 更新 README.md + 代码整理 + 添加 requirements.txt 中的 streamlit 启动配置
 
 **Day 3 完成时间**: ____________
 

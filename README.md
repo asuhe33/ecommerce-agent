@@ -23,28 +23,52 @@
 ## 快速开始
 
 ### 1. 环境准备
+
 ```bash
-# 安装依赖
+# 安装 Python 依赖
 pip install -r requirements.txt
 
-# 拉取 Ollama 模型
-ollama pull qwen3.5:9B
-ollama pull nomic-embed-text
+# 拉取 Ollama 模型（首次需要网络）
+ollama pull qwen3.5:9B        # LLM 模型（你已有）
+ollama pull nomic-embed-text  # Embedding 模型（274MB）
 ```
 
-### 2. 初始化数据库
+### 2. 配置 MySQL
+
+确保 MySQL 服务已启动，然后修改 `.env` 文件中的数据库连接信息：
+
+```env
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=你的密码
+MYSQL_DATABASE=ecommerce
+```
+
+> `init_db.py` 会自动创建数据库和表，无需手动建库。
+
+### 3. 初始化数据库
 ```bash
-python data/init_db.py
+python data/init_db.py          # 建表 + 插入 mock 数据
+python data/init_db.py --reset  # 如需重新初始化
 ```
 
-### 3. 构建知识库
+### 4. 构建知识库
 ```bash
-python rag/vector_store.py
+python rag/vector_store.py          # 向量化知识文档
+python rag/vector_store.py --reset  # 如需重新构建
 ```
 
-### 4. 启动应用
+### 5. 启动应用
 ```bash
 streamlit run app.py
+```
+
+浏览器会自动打开 http://localhost:8501
+
+### 6. 命令行测试模式（可选）
+```bash
+python -m agent.agent_builder
 ```
 
 ## 项目结构
