@@ -31,11 +31,11 @@
 
 ## Day 3：界面 + 集成 + 收尾
 
-- [ ] 编写 app.py：Streamlit 聊天界面（对话历史 + 流式输出）
-- [ ] Agent ↔ Streamlit 集成，处理会话状态
-- [ ] 端到端测试：5 类场景各测几轮
+- [x] 编写 app.py：Streamlit 聊天界面（对话历史 + 流式输出）
+- [x] Agent ↔ Streamlit 集成，处理会话状态
+- [ ] 端到端测试：5 类场景各测几轮（需要用户配置环境后执行）
 - [ ] 修复测试中发现的问题
-- [ ] 更新 README.md + 代码整理 + 添加 requirements.txt 中的 streamlit 启动配置
+- [x] 更新 README.md + 代码整理
 
 **Day 3 完成时间**: ____________
 
@@ -47,4 +47,5 @@
 |------|----------|------|
 | Day 1 | `chore: project setup + database + knowledge base` | 基础搭建 |
 | Day 2 | `feat: agent core with 5 tools + Ollama integration` | Agent 核心 |
+| Day 3 | `feat: Streamlit UI + end-to-end integration` | 界面集成 |
 | Day 3 | `feat: Streamlit UI + end-to-end integration` | 界面集成 |
